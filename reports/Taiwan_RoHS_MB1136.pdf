@@ -1,0 +1,156 @@
+# Taiwan RoHS Compliance Report — MB1136
+
+Prepared for: (customer)
+Product / Board reference: MB1136
+Variant: F030R8
+PCB revision: C
+Assembly revision: 03
+BOM source: Copia de SAMPLE_BOM.csv (repo: jsoffritti/Test-Copilot-1, commit: 642e90c98e15d748a8b4ec3af9cdb5dae863151e)
+Report date: 2025-11-27
+Scope: Assessment for Taiwan RoHS requirements (Environmental Protection Administration — restricted substances in electrical & electronic equipment). This report evaluates the provided Bill of Materials (BOM) and highlights documentation gaps and risk areas. It is a documentation-led assessment only — no laboratory testing was performed.
+
+Version: draft 1.0
+
+---
+
+Executive summary
+- BOM provided: "Copia de SAMPLE_BOM.csv" (board MB1136). The BOM contains a mix of passive components (resistors, capacitors), semiconductors (MCUs, regulators, MOSFETs, diodes), mechanical/connectors (headers, USB connector, switches), discrete components (LEDs, crystals).
+- Supplier declarations / SDS: None were included in the CSV content. No CoC/SDS links or attachments were provided in the BOM text.
+- High-level result: Cannot confirm full compliance without supplier CoCs or laboratory test results. Many parts are likely available in RoHS-compatible versions (standard modern parts from Yageo, AVX, ST, Everlight, Abracon, etc.). However, connectors, mechanical switches, and unspecified or older parts must be specifically confirmed.
+- Immediate recommended actions:
+  1. Request supplier CoC (RoHS declaration) and SDS for every unique Manufacturer_Part_Number.
+  2. Prioritize obtaining documentation for connectors, mechanical switches, and any plated metal parts.
+  3. If supplier documentation is unavailable or ambiguous, perform XRF screening and/or chemical analysis on physical samples.
+
+---
+
+1. Assumptions, methodology, and scope
+- Scope: Taiwan RoHS only (not EU RoHS or other markets). Taiwan’s RoHS historically follows the six restricted substances commonly used in RoHS regulation: lead (Pb), mercury (Hg), cadmium (Cd), hexavalent chromium (Cr(VI)), polybrominated biphenyls (PBB), and polybrominated diphenyl ethers (PBDE). More recent Taiwan updates may also address certain phthalates — confirm the current Taiwan EPA regulation text for the precise scope and thresholds.
+- Thresholds used for assessment (typical RoHS thresholds; verify against the Taiwan EPA text before using this report as legal compliance evidence):
+  - Cadmium (Cd): 0.01% w/w (100 ppm)
+  - Lead (Pb), Mercury (Hg), Hexavalent Chromium (Cr VI), PBB, PBDE: 0.1% w/w (1000 ppm)
+- Methodology:
+  - Review BOM lines and manufacturer part numbers.
+  - Group components by risk category using industry knowledge (passive SMD parts from major vendors are typically available as RoHS-compliant references; connectors/switches more likely to have leaded finishes historically).
+  - Mark each class/representative part as: Compliant candidate (likely compliant — documentation missing), Documentation missing (unknown), or High risk (needs immediate supplier confirmation/testing).
+  - Provide supplier request template and recommended lab test types.
+
+Limitations
+- No supplier CoC / SDS attachments were provided in the BOM.
+- No laboratory testing performed.
+- The assessment is not a substitute for formal compliance certification. Final compliance must be established by supplier CoC (with traceable declarations) and/or laboratory confirmation.
+
+---
+
+2. Taiwan RoHS — short regulatory background (summary)
+- Taiwan EPA controls restricted substances in certain electrical and electronic products; the restriction set is largely aligned with the core RoHS substances used in EU RoHS (Pb, Hg, Cd, hexavalent Cr, PBB, PBDE) and has had updates over time. Confirm current Taiwan EPA published limits and any additional substances (e.g., certain phthalates) that may be regulated.
+- For manufacturing and product exporting, the local legal text and Taiwan EPA guidance are the authoritative references. This report uses commonly accepted substance thresholds for screening.
+
+---
+
+3. Findings — general observations from the BOM
+- No supplier RoHS declarations (CoC) or SDS were embedded in the CSV. Therefore every part is marked as "Documentation missing" by default.
+- Components likely to be low-risk / typically sold in RoHS versions:
+  - Discrete semiconductors from major vendors (ST, Tai-tech, unisonic, STPS diodes, LD3985/LD1117 regulators, MOSFET STS7PF30L, STM32 MCUs): manufacturers currently produce RoHS/lead-free versions. Likely compliant candidates but require CoC confirmation.
+  - Passive SMD resistors (YAGEO) and ceramic capacitors (YAGEO, AVX, FENGHUA): typically available as RoHS-compliant parts; likely compliant candidates but require CoC confirmation.
+  - Crystals/oscillators (Abracon, HongKongCrystal): typically RoHS versions exist; request CoC.
+  - LEDs (Everlight, Everluck): usually RoHS-compliant versions exist; request CoC.
+- Higher risk or items requiring priority confirmation/testing:
+  - Connectors and headers (Lyconn parts: many pin headers and female headers): plating/finish may historically be tin, nickel, or gold over brass; some plating processes and solderability finishes may include lead-based solders historically or lead-containing surface finishes. Mark as "Documentation missing — priority".
+  - Mechanical components / switches (wealthmetal touch switches B1/B2): mechanical contacts or plating processes may use materials/coatings that need supplier declaration.
+  - USB connector (Townes MUSB5QS-BM1H6-NLB-E): often manufactured in RoHS versions, but mechanical connector finishes/plating and internal materials should be confirmed.
+  - Any "Not Fitted" placeholder parts are not a RoHS risk for the shipped product but should still be validated for BOM completeness.
+  - Any sockets (Yamaichi IC socket) and metal mechanical parts (sockets, pins) should be prioritized for CoC.
+
+---
+
+4. Representative per-component assessment (examples)
+Note: "Documentation" column indicates whether a CoC / SDS was provided in the BOM text (none provided). "Assessed Status" is the recommendation based on vendor and part type.
+
+- B1 / B2 — TD0341X-G01-BLU / TD0341X-G01-BLA (wealthmetal touch switch)
+  - Documentation: none provided
+  - Assessed status: High risk (mechanical switch plating/contact materials). Action: request CoC and material declaration; if unavailable, test.
+
+- CN1 — MUSB5QS-BM1H6-NLB-E (Townes, USB-MINI-B-SMD)
+  - Documentation: none
+  - Assessed status: Priority — request CoC (connectors can have plating issues). Action: request CoC and plating finish details.
+
+- CNx, JPx headers — Lyconn parts (e.g., 313140S111116, 218106S1610, etc.)
+  - Documentation: none
+  - Assessed status: Priority — connectors/headers need supplier CoC for plating/solderability finishes. Action: request CoC.
+
+- Passive components — YAGEO resistors (RC0603*, RC1206*), YAGEO/AVX capacitors (CC0603*, TAJ*, TAJ*)
+  - Documentation: none
+  - Assessed status: Likely compliant candidate (modern passives from major manufacturers typically have RoHS versions). Action: request CoC for each Manufacturer_Part_Number.
+
+- Semiconductors — ST parts (STM32F103CBT6, STM32F030R8T6), LD3985M33R, LD1117S50TR, STPS2L30A, ST MOSFETs
+  - Documentation: none
+  - Assessed status: Likely compliant candidate; require CoC confirmation. Action: request CoC.
+
+- LEDs — Everlight / Everluck (LE-RGW35280, 19-213SY6C, 19-213-R6C)
+  - Documentation: none
+  - Assessed status: Likely compliant candidate; request CoC.
+
+- Crystals (Abracon, HongKongCrystal)
+  - Documentation: none
+  - Assessed status: Likely compliant candidate; request CoC.
+
+Summary recommendation for per-component work:
+- Create a short supplier CoC request and send to each vendor/supplier asking for:
+  - Official RoHS CoC covering the Manufacturer_Part_Number (including the restricted substance scope and thresholds, and the CoC date/version).
+  - SDS for any components containing plastics, potting, or adhesives that might contain PBDEs or regulated phthalates.
+  - Plating finish description for connectors, switches, and sockets.
+
+---
+
+5. Recommended prioritization (practical next steps)
+1. Immediate supplier CoC requests (highest priority):
+   - All connector/header parts (Lyconn part numbers in BOM)
+   - Mechanical switches (wealthmetal TD0341X family)
+   - USB connector (Townes MUSB5QS)
+   - Sockets and any metal mechanical parts (Yamaichi IC socket)
+2. Secondary CoC requests:
+   - All semiconductors (ST, etc.)
+   - LEDs, crystals, and passive parts (Yageo, AVX, Everlight, Abracon)
+3. If any supplier does not provide a satisfactory CoC (or provides an older/non-specific declaration), arrange XRF screening:
+   - XRF screening is a fast, non-destructive method to detect heavy elements (Pb, Cd, Hg, Cr). Use for plating and solder joints, connectors, switches, boards, and larger components.
+   - For suspected PBDE/PBB or phthalates in plastics, request chemical lab testing targeted at brominated flame retardants and phthalates (requires destructive testing).
+4. Maintain procurement requirement: Require supplier RoHS CoC and SDS as part of the purchase order (P.O.) acceptance process.
+
+---
+
+6. Suggested sample supplier email / request template
+Subject: Request for RoHS Declaration & SDS — [Manufacturer_Part_Number]
+
+Body:
+Hello [Supplier contact],
+
+We are preparing regulatory compliance documentation for product MB1136. Please provide the following for your part [Manufacturer_Part_Number] (as listed on our BOM):
+
+1) Official RoHS Certificate of Compliance (CoC) referencing the Manufacturer_Part_Number, including the scope (substances and thresholds) and declaration date.
+2) SDS (Safety Data Sheet) for the part, or materials specification if the part is not covered by a typical SDS (e.g., connectors or assemblies).
+3) Plating / finish details for metal contacts (e.g., tin, nickel, gold plating thicknesses).
+4) If the part is RoHS-exempt or uses an exemption, provide details of the exemption.
+
+Please send scanned PDF copies or a URL to the manufacturer's declaration.
+
+Thank you,
+[Your name / Compliance team]
+
+---
+
+7. Appendix — recommended tests and labs
+- XRF Screening: Good for rapid screening for Pb, Cd, Cr, Hg on bulk materials, connectors, plated parts, solder.
+- Chemical analysis (GC-MS/LC-MS, wet chemistry): For PBDE/PBB and restricted phthalates or where XRF cannot give conclusive results.
+- If required for certification or market-entry declarations, use an ISO/IEC 17025 accredited lab.
+
+---
+
+8. Next steps I can take for you
+- Option A: I can convert this draft to a professional PDF and either:
+  - attach it here for direct download (note: chat cannot attach binary PDF inline), or
+  - commit it into your repo jsoffritti/Test-Copilot-1 at a path you specify (e.g., /reports/Taiwan_RoHS_MB1136.pdf) with a commit message you provide.
+- Option B: I can produce an itemized spreadsheet (CSV/XLSX) of unique Manufacturer_Part_Numbers from the BOM with columns you can use to send out CoC requests (Part number, Manufacturer, Contact column, CoC status).
+- Option C: I can prepare the supplier email template as an HTML/printable PDF batch and a checklist to track returns.
+
+Please confirm the option and, if Option A with a repo commit, provide the repo path and branch (e.g., reports/Taiwan_RoHS_MB1136.pdf on branch main). If you prefer I attach the PDF here, I will need to instead upload it into your repository and share the download link.
